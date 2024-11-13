@@ -1,81 +1,169 @@
-<div align="center">
+API FalaAgro
+Esta é a API do projeto FalaAgro, que fornece serviços de gerenciamento de usuários e notícias. A API foi desenvolvida usando o framework Fastify e oferece endpoints para realizar operações de CRUD (criar, ler, atualizar e excluir) para usuários e notícias.
 
-  <img src="./.github/assets/blue-saiyan-bg.png" alt="Logo" height="200">
-  <h1 align="center"><strong>NODE BOILERPLATE - BLUE EDITION</strong></h1>
-  <p align="center">
-	  Don't start a new Node project from zero!<br> Use this simple <b>Nodejs</b> boilerplate with pre-configured <b>Typescript</b> in a modern way.
-  </p>
+Requisitos
+Node.js 14.x ou superior
+npm ou yarn
+Instalação
+Clone o repositório:
 
-</div>
+bash
+Copiar código
+git clone https://github.com/caiohbda/Api-FalaAgro.git
+cd Api-FalaAgro
+Instale as dependências:
 
-<br />
+bash
+Copiar código
+npm install
+ou, se estiver usando o Yarn:
 
-  <!-- Badges -->
-<div align="center">
-  
-  [![TypeScript version][ts-badge]][typescript-5-4]
-  [![Node.js version][nodejs-badge]][nodejs]
+bash
+Copiar código
+yarn install
+(Opcional) Crie um arquivo .env para definir variáveis de ambiente necessárias, como o banco de dados.
 
-</div>
+Inicie o servidor:
 
-# 🚀 Technologies
+bash
+Copiar código
+npm run start:dev
+ou, se estiver usando o Yarn:
 
-This code source was developed with the following items:
+bash
+Copiar código
+yarn start:dev
+Endpoints
+Usuários
+POST /users
+Cria um novo usuário.
 
-### 📦 Dependencies
+Corpo da requisição:
 
-- [typescript][typescript-npm] - Superset for application scale JavaScript development
-- [tsx][tsx-npm] - TypeScript Execute (tsx): Enable Node.js to run TypeScript
-- [tsup][tsup-npm] - Bundle your TypeScript library with no config, powered by esbuild
-- [@types/node][@types/node-npm] - type definitions for node
+json
+Copiar código
+{
+  "fullName": "Nome do Usuário",
+  "username": "nomeusuario",
+  "email": "email@dominio.com",
+  "phoneNumber": "(81) 98335-3586",
+  "isActive": true
+}
+Resposta:
 
-### 📄 Files
+json
+Copiar código
+{
+  "id": "uuid-do-usuario",
+  "fullName": "Nome do Usuário",
+  "username": "nomeusuario",
+  "email": "email@dominio.com",
+  "phoneNumber": "(81) 98335-3586",
+  "isActive": true
+}
+GET /users
+Obtém uma lista de usuários.
 
-- `.gitignore` - Ignore folders like node_modules
-- `.env` - Enviroment variables
-- `tsconfig.json` - Typescript configure Options
+Resposta:
 
-### ⚡ Scripts
+json
+Copiar código
+[
+  {
+    "id": "uuid-do-usuario",
+    "fullName": "Nome do Usuário",
+    "username": "nomeusuario",
+    "email": "email@dominio.com",
+    "phoneNumber": "(81) 98335-3586",
+    "isActive": true
+  },
+  ...
+]
+PUT /users/upgrade/{id}
+Atualiza as informações de um usuário.
 
-- `npm run dist`: Compiles TypeScript files to JavaScript in the dist directory.
-- `npm run start:dev`: Runs the server in development mode with environment variables loaded from the .env file.
-- `npm run start:watch`: Runs the server in development mode with support for automatic reload on file changes.
-- `npm run start:dist`: Compiles the project and runs the compiled version from the dist directory.
+Corpo da requisição:
 
-# 👨‍💻 How To Use
+json
+Copiar código
+{
+  "fullName": "Novo Nome",
+  "username": "novonomeusuario",
+  "email": "novoemail@dominio.com",
+  "phoneNumber": "(81) 98765-4321",
+  "isActive": false
+}
+Resposta:
 
-click in **[Use this template]** OR
+json
+Copiar código
+{
+  "id": "uuid-do-usuario",
+  "fullName": "Novo Nome",
+  "username": "novonomeusuario",
+  "email": "novoemail@dominio.com",
+  "phoneNumber": "(81) 98765-4321",
+  "isActive": false
+}
+DELETE /users/delete/{id}
+Deleta um usuário.
 
-To clone and run this application, you'll need [Git](https://git-scm.com), [Node.js v20+](https://nodejs.org/en/) + [NPM v10+](https://nodejs.org/en/) installed on your computer. From your command line:
+Resposta:
 
-```bash
-# Clone this repository
-$ git clone https://github.com/felipeAguiarCode/node-blue-boilerplate
+json
+Copiar código
+{
+  "message": "Usuário deletado com sucesso."
+}
+Notícias
+POST /posts/{id}
+Cria uma nova notícia.
 
-# Go into the repository
-$ cd node-blue-boilerplate
+Corpo da requisição:
 
-# Install dependencies
-$ npm install
-```
+json
+Copiar código
+{
+  "title": "Título da Notícia",
+  "content": "Conteúdo detalhado da notícia.",
+  "state": "PE",
+  "city": "Recife",
+  "image": "url-da-imagem.jpg"
+}
+Resposta:
 
-## Author
+json
+Copiar código
+{
+  "id": "uuid-da-noticia",
+  "title": "Título da Notícia",
+  "content": "Conteúdo detalhado da notícia.",
+  "state": "PE",
+  "city": "Recife",
+  "image": "url-da-imagem.jpg"
+}
+GET /posts
+Obtém uma lista de notícias, com filtros por text, city, state, skip, take.
 
-| [<img src="https://avatars3.githubusercontent.com/u/37452836?s=96&v=4"><br><sub>Felipe Aguiar</sub>](https://github.com/felipeAguiarCode) |
-| :---------------------------------------------------------------------------------------------------------------------------------------: |
-|                                            [Linkedin](www.linkedin.com/in/felipe-aguiar-exe/)                                             |
+Parâmetros de consulta:
 
-# Credits
+text: Filtro de texto para pesquisar notícias.
+city: Filtro pela cidade.
+state: Filtro pelo estado.
+skip: Número de registros a serem pulados (para paginação).
+take: Número de registros a serem retornados.
+Resposta:
 
-icons by [Pino Lamanna][dribble-icon]
-
-[typescript]: https://www.typescriptlang.org/
-[typescript-5-4]: https://www.typescriptlang.org/
-[ts-badge]: https://img.shields.io/badge/TypeScript-5.4-blue.svg
-[nodejs-badge]: https://img.shields.io/badge/Node.js->=%2020.00-blue.svg
-[nodejs]: https://nodejs.org/
-[dribble-icon]: https://dribbble.com/Schakalwal
-[typescript-npm]: https://www.npmjs.com/package/typescript
-[tsx-npm]: https://www.npmjs.com/package/tsx
-[tsup-npm]: https://www.npmjs.com/package/tsup
-[@types/node-npm]: https://www.npmjs.com/package/@types/node
+json
+Copiar código
+[
+  {
+    "id": "uuid-da-noticia",
+    "title": "Título da Notícia",
+    "content": "Conteúdo da notícia.",
+    "state": "PE",
+    "city": "Recife",
+    "image": "url-da-imagem.jpg"
+  },
+  ...
+]
