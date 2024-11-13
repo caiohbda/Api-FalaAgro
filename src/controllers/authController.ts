@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { generateToken, verifyToken } from "../services/authService";
-import { findUserByUsernameAndPassword } from "../services/userService";
+import { findUserByEmailAndPassword } from "../services/userService";
 import { User } from "../models/user";
 import { users } from "../data/userData";
 

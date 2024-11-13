@@ -1,11 +1,11 @@
 import { User } from "../models/user";
 
-export const findUserByUsernameAndPassword = (
-  username: string,
+export const findUserByEmailAndPassword = (
+  email: string,
   password: string,
   users: User[]
 ): User | undefined => {
   return users.find(
-    (user) => user.username === username && user.password === password
+    (user) => user.email === email && user.password === password
   );
 };
