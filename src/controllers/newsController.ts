@@ -1,15 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { noticias } from "../data/newsData";
 import { Noticia } from "../models/news";
-
-interface CreateNoticiaBody {
-  userId: string;
-  title: string;
-  content: string;
-  state: string;
-  city: string;
-  image: string;
-}
+import { CreateNoticiaBody } from "../models/news";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -22,7 +14,11 @@ export const getNoticias = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  return reply.send({ noticias: noticias });
+  if (noticias.length === 0) {
+    return reply.status(404).send({ message: "Nenhuma notícia disponível." });
+  }
+
+  return reply.send({ noticias });
 };
 
 export const createNoticia = async (
@@ -47,4 +43,31 @@ export const createNoticia = async (
   return reply
     .status(201)
     .send({ message: "Notícia criada com sucesso", noticia: newNoticia });
+};
+
+export const getNoticiasByState = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { state } = request.query as { state: string };
+
+  if (!state || state.trim() === "") {
+    return reply
+      .status(400)
+      .send({ message: "O parâmetro 'state' é obrigatório." });
+  }
+
+  const estadoLowerCase = state.toLowerCase();
+
+  const filteredNoticias = noticias.filter(
+    (noticia) => noticia.state.toLowerCase() === estadoLowerCase
+  );
+
+  if (filteredNoticias.length === 0) {
+    return reply
+      .status(404)
+      .send({ message: `Nenhuma notícia encontrada para o estado: ${state}` });
+  }
+
+  return reply.send({ noticias: filteredNoticias });
 };

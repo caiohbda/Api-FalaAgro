@@ -1,24 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { noticias } from "../data/newsData";
-
-export interface Noticia {
-  id: string;
-  userId: string;
-  title: string;
-  content: string;
-  state: string;
-  city: string;
-  image: string;
-}
-
-export interface CreateNoticiaBody {
-  userId: string;
-  title: string;
-  content: string;
-  state: string;
-  city: string;
-  image: string;
-}
+import { Noticia, CreateNoticiaBody } from "../models/news";
 
 export const getAllNoticias = async (
   request: FastifyRequest,
@@ -37,8 +19,10 @@ export const getNoticiasByState = async (
 ) => {
   const { state } = request.query as { state: string };
 
-  if (!state) {
-    return reply.status(400).send({ message: "State parameter is required" });
+  if (!state || state.trim() === "") {
+    return reply
+      .status(400)
+      .send({ message: "O parâmetro 'state' é obrigatório." });
   }
 
   const filteredNoticias = noticias.filter(
@@ -48,7 +32,7 @@ export const getNoticiasByState = async (
   if (filteredNoticias.length === 0) {
     return reply
       .status(404)
-      .send({ message: `No noticias found for the state: ${state}` });
+      .send({ message: `Nenhuma notícia encontrada para o estado: ${state}` });
   }
 
   return reply.send({ noticias: filteredNoticias });
