@@ -18,6 +18,13 @@ server.register(userRoutes);
 server.register(noticiasRoutes);
 server.register(authRoutes);
 
-server.listen({ port: 3333 }, () => {
-  console.log("Server is running on port 3333");
+// Convertendo o valor de process.env.PORT para número ou usando 3333 como fallback
+const port = Number(process.env.PORT) || 3333;
+
+server.listen({ port }, (err, address) => {
+  if (err) {
+    server.log.error(err);
+    process.exit(1);
+  }
+  console.log(`Server is running on ${address}`);
 });
