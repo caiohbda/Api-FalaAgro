@@ -1,12 +1,8 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { generateToken, verifyToken } from "../services/authService";
 import { User } from "../models/user";
+import { LoginRequestBody } from "../models/auth";
 import { users } from "../data/userData";
-
-interface LoginRequestBody {
-  identifier: string;
-  password: string;
-}
 
 export const login = async (
   request: FastifyRequest<{ Body: LoginRequestBody }>,

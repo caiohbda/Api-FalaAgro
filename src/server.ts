@@ -18,7 +18,6 @@ server.register(userRoutes);
 server.register(noticiasRoutes);
 server.register(authRoutes);
 
-// Convertendo o valor de process.env.PORT para número ou usando 3333 como fallback
 const port = Number(process.env.PORT) || 3333;
 
 server.listen({ port }, (err, address) => {
