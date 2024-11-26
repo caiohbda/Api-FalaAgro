@@ -14,16 +14,17 @@ server.register(cors, {
   origin: "*",
 });
 
+// Registro das rotas
 server.register(userRoutes);
 server.register(noticiasRoutes);
 server.register(authRoutes);
 
 const port = Number(process.env.PORT) || 3333;
 
-server.listen({ port }, (err, address) => {
+server.listen({ port, host: "0.0.0.0" }, (err, address) => {
   if (err) {
     server.log.error(err);
     process.exit(1);
   }
-  console.log(`Server is running on ${address}`);
+  console.log(`🚀 Server is running on ${address}`);
 });
